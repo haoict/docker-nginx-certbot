@@ -1,5 +1,4 @@
 FROM nginx
-MAINTAINER Elliot Saba <staticfloat@gmail.com>
 
 VOLUME /etc/letsencrypt
 EXPOSE 80
