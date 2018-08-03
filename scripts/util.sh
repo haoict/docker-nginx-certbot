@@ -16,7 +16,15 @@ error() {
 parse_domains() {
     # For each configuration file in /etc/nginx/conf.d/*.conf*
     for conf_file in /etc/nginx/conf.d/*.conf*; do
-        sed -n -e 's&^\s*ssl_certificate_key\s*\/etc/letsencrypt/live/\(.*\)/privkey.pem;&\1&p' $conf_file | xargs echo | tr ' ' ','
+        if [ ${conf_file##*/} = certbot.conf ]; then
+            continue
+        fi
+        if [ ${conf_file##*.} = nokey ]; then
+            basename $conf_file .conf.nokey | xargs echo | tr ' ' ','
+        fi
+        if [ ${conf_file##*.} = conf ]; then
+            basename $conf_file .conf | xargs echo | tr ' ' ','
+        fi
     done
 }
 
